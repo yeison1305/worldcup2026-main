@@ -11,6 +11,7 @@ export default function TeamsPanel() {
   const [showModal, setShowModal] = useState(false);
   const [editingTeam, setEditingTeam] = useState(null);
   const [formData, setFormData] = useState({ name: '', flagUrl: '', groupLetter: '' });
+  const [deleteModal, setDeleteModal] = useState({ show: false, team: null });
 
   const fetchTeams = useCallback(async () => {
     try {
@@ -63,21 +64,25 @@ export default function TeamsPanel() {
   }, [fetchTeams]);
 
   const deleteTeam = useCallback(async (id) => {
-    if (!confirm('¿Estás seguro de eliminar este equipo?')) return;
     try {
       const token = localStorage.getItem('token');
       await axios.delete(`${API_URL}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      setDeleteModal({ show: false, team: null });
       fetchTeams();
     } catch (err) {
+      setDeleteModal({ show: false, team: null });
       setError(err.response?.data?.message || 'Error al eliminar equipo');
     }
   }, [fetchTeams]);
 
   const handleToggleActive = useCallback((id) => () => toggleActive(id), [toggleActive]);
   const handleEditTeam = useCallback((team) => () => openModal(team), []);
-  const handleDeleteTeam = useCallback((id) => () => deleteTeam(id), [deleteTeam]);
+  const handleDeleteTeam = useCallback((id) => () => {
+    const team = teams.find(t => t.id === id);
+    setDeleteModal({ show: true, team });
+  }, [teams]);
 
   const openModal = useCallback((team = null) => {
     if (team) {
@@ -287,6 +292,52 @@ export default function TeamsPanel() {
                 Cancelar
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación de eliminación */}
+      {deleteModal.show && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            animation: 'modalBackdrop 0.2s ease-out forwards'
+          }}
+          onClick={() => setDeleteModal({ show: false, team: null })}
+        >
+          <div
+            className="rounded-2xl p-8 w-full max-w-md"
+            style={{
+              backgroundColor: '#1e293b',
+              border: '1px solid #334155',
+              animation: 'modalSlideIn 0.3s ease-out forwards'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <div className="text-6xl mb-4">🗑️</div>
+              <h2 className="font-bold text-xl text-white mb-2">
+                ¿Eliminar equipo?
+              </h2>
+              <p className="text-slate-400 mb-6">
+                ¿Estás seguro de eliminar <span className="text-amber-400 font-semibold">{deleteModal.team?.name}</span> del Grupo {deleteModal.team?.group_letter}?
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setDeleteModal({ show: false, team: null })}
+                  className="flex-1 py-3 rounded-xl font-bold text-slate-400 hover:text-white transition-colors border border-slate-600"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => deleteTeam(deleteModal.team.id)}
+                  className="flex-1 py-3 rounded-xl font-bold bg-red-600 hover:bg-red-700 text-white transition-colors"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

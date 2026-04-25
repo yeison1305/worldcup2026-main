@@ -1,4 +1,5 @@
 const teamRepository = require('../repositories/team.repository');
+const matchRepository = require('../repositories/match.repository');
 const { NotFoundError, BadRequestError } = require('../errors/AppError');
 
 class TeamService {
@@ -19,6 +20,11 @@ class TeamService {
       throw BadRequestError.create('Nombre y grupo son requeridos');
     }
 
+    const existingTeams = await teamRepository.findByGroup(groupLetter);
+    if (existingTeams.length >= 4) {
+      throw BadRequestError.create(`El grupo ${groupLetter} ya tiene 4 equipos registrados`);
+    }
+
     const team = await teamRepository.create({ name, flagUrl, groupLetter });
     return team;
   }
@@ -32,6 +38,11 @@ class TeamService {
   }
 
   async delete(id) {
+    const relatedMatches = await matchRepository.findByTeamId(id);
+    if (relatedMatches.length > 0) {
+      throw BadRequestError.create('No se puede eliminar un equipo que está en un partido');
+    }
+
     const team = await teamRepository.delete(id);
     if (!team) {
       throw NotFoundError.create('Equipo no encontrado');

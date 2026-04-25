@@ -1,4 +1,5 @@
 const matchRepository = require('./match.repository');
+const teamRepository = require('./team.repository');
 const { MatchCollection } = require('../iterators/MatchCollection');
 
 class StandingsRepository {
@@ -12,13 +13,18 @@ class StandingsRepository {
     const allMatches = await matchRepository.findAll();
     const collection = new MatchCollection(allMatches);
 
-    // Usar el Iterator para filtrar: solo partidos del grupo y finalizados
+    // Primero: incluir TODOS los equipos activos del grupo directamente desde teams
+    const groupTeams = await teamRepository.findByGroup(groupLetter);
+    const statsMap = {};
+
+    for (const team of groupTeams) {
+      statsMap[team.id] = this._createEmptyStats(team.id, team);
+    }
+
+    // Segundo: procesar partidos finalizados para actualizar estadísticas
     const finishedIterator = collection
       .filterByGroup(groupLetter)
       .filterByStatus('FINISHED');
-
-    // Mapa de estadísticas por equipo
-    const statsMap = {};
 
     // Recorrer con el iterator
     for (const match of finishedIterator) {
@@ -60,17 +66,6 @@ class StandingsRepository {
         statsMap[homeId].points += 1;
         statsMap[awayId].drawn++;
         statsMap[awayId].points += 1;
-      }
-    }
-
-    // También incluir equipos del grupo que no han jugado
-    const allGroupMatches = collection.filterByGroup(groupLetter).toArray();
-    for (const match of allGroupMatches) {
-      if (!statsMap[match.home_team_id]) {
-        statsMap[match.home_team_id] = this._createEmptyStats(match.home_team_id, match.home_team);
-      }
-      if (!statsMap[match.away_team_id]) {
-        statsMap[match.away_team_id] = this._createEmptyStats(match.away_team_id, match.away_team);
       }
     }
 

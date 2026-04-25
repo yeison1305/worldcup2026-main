@@ -33,7 +33,7 @@ class MatchRepository {
       .eq('id', id)
       .single();
 
-    if (error && error.code !== 'PGRST116') throw error;
+if (error && error.code !== 'PGRST116') throw error;
     return data || null;
   }
 
@@ -57,82 +57,16 @@ class MatchRepository {
   }
 
   /**
-   * Crea un nuevo partido
+   * Verifica si un equipo está asignado a algún partido
    */
-  async create({ homeTeamId, awayTeamId, phase, groupLetter, roundNumber, matchDate, stadium, location }) {
+  async findByTeamId(teamId) {
     const { data, error } = await db.supabase
       .from('matches')
-      .insert({
-        home_team_id: homeTeamId,
-        away_team_id: awayTeamId,
-        phase: phase || 'GROUP',
-        group_letter: groupLetter,
-        round_number: roundNumber,
-        match_date: matchDate,
-        stadium,
-        location,
-        status: 'SCHEDULED',
-        home_score: 0,
-        away_score: 0,
-      })
-      .select()
-      .single();
+      .select('id, phase, group_letter, status')
+      .or(`home_team_id.eq.${teamId},away_team_id.eq.${teamId}`);
 
     if (error) throw error;
-    return data;
-  }
-
-  /**
-   * Actualiza un partido existente
-   */
-  async update(id, updates) {
-    const updateData = {};
-
-    if (updates.homeTeamId !== undefined) updateData.home_team_id = updates.homeTeamId;
-    if (updates.awayTeamId !== undefined) updateData.away_team_id = updates.awayTeamId;
-    if (updates.phase !== undefined) updateData.phase = updates.phase;
-    if (updates.groupLetter !== undefined) updateData.group_letter = updates.groupLetter;
-    if (updates.roundNumber !== undefined) updateData.round_number = updates.roundNumber;
-    if (updates.matchDate !== undefined) updateData.match_date = updates.matchDate;
-    if (updates.stadium !== undefined) updateData.stadium = updates.stadium;
-    if (updates.location !== undefined) updateData.location = updates.location;
-    if (updates.status !== undefined) updateData.status = updates.status;
-    if (updates.homeScore !== undefined) updateData.home_score = updates.homeScore;
-    if (updates.awayScore !== undefined) updateData.away_score = updates.awayScore;
-
-    updateData.updated_at = new Date().toISOString();
-
-    if (Object.keys(updateData).length === 1) return this.findById(id);
-
-    const { data, error } = await db.supabase
-      .from('matches')
-      .update(updateData)
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data || null;
-  }
-
-  /**
-   * Registra resultado de un partido
-   */
-  async updateResult(id, homeScore, awayScore, status = 'FINISHED') {
-    const { data, error } = await db.supabase
-      .from('matches')
-      .update({
-        home_score: homeScore,
-        away_score: awayScore,
-        status,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data || null;
+    return data || [];
   }
 
   /**
