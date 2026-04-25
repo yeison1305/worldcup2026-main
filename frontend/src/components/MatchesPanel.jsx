@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import matchService from '../services/match.service';
 import axios from 'axios';
 
-const GROUPS = ['A', 'B', 'C', 'D'];
+const GROUPS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
 /**
  * MatchesPanel — Panel de administración CRUD para partidos

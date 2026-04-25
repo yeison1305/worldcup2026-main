@@ -4,7 +4,7 @@ import matchService from '../services/match.service';
 import StandingsTable from '../components/StandingsTable';
 import MatchCard from '../components/MatchCard';
 
-const GROUPS = ['A', 'B', 'C', 'D'];
+const GROUPS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
 export default function GroupStagePage() {
   const [activeGroup, setActiveGroup] = useState('A');
