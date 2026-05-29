@@ -6,6 +6,8 @@ import DashboardPage from '../pages/DashboardPage';
 import AdminDashboardPage from '../pages/AdminDashboardPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import GroupStagePage from '../pages/GroupStagePage';
+import MatchDetailPage from '../pages/MatchDetailPage';
+import ProfilePage from '../pages/ProfilePage';
 
 // Componente para redirigir según rol
 const RoleBasedRedirect = ({ children }) => {
@@ -66,6 +68,16 @@ export default function AppRouter() {
         {/* Fase de grupos */}
         <Route path="/groups" element={
           <PrivateRoute><GroupStagePage /></PrivateRoute>
+        } />
+
+        {/* Detalle de partido con predicción */}
+        <Route path="/matches/:id" element={
+          <PrivateRoute><MatchDetailPage /></PrivateRoute>
+        } />
+
+        {/* Perfil */}
+        <Route path="/profile" element={
+          <PrivateRoute><ProfilePage /></PrivateRoute>
         } />
         
         {/* Redirección según rol */}

@@ -36,4 +36,19 @@ const resetPassword = async (token, newPassword) => {
   return response.data;
 };
 
-export default { register, login, googleLogin, forgotPassword, resetPassword };
+const changePassword = async (currentPassword, newPassword) => {
+  const response = await axios.put(
+    `${API_URL}/change-password`,
+    { currentPassword, newPassword },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+export default { register, login, googleLogin, forgotPassword, resetPassword, changePassword };

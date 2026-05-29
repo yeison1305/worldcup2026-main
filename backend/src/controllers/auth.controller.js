@@ -247,6 +247,42 @@ class AuthController {
     }
   }
 
+  async changePassword(req, res, next) {
+    try {
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Contraseña actual y nueva son requeridas',
+        });
+      }
+
+      if (!isValidPassword(newPassword)) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'La contraseña debe tener mínimo 6 caracteres',
+        });
+      }
+
+      if (currentPassword === newPassword) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'La nueva contraseña debe ser diferente a la actual',
+        });
+      }
+
+      const result = await authService.changePassword(req.user.id, currentPassword, newPassword);
+
+      return res.status(200).json({
+        status: 'success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 // Patrón Singleton: exportar una única instancia de la clase

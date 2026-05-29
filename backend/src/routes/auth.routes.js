@@ -13,6 +13,7 @@ router.post('/reset-password', (req, res, next) => authController.resetPassword(
 
 // Rutas protegidas
 router.get('/me', requireAuth, (req, res, next) => authController.me(req, res, next));
+router.put('/change-password', requireAuth, (req, res, next) => authController.changePassword(req, res, next));
 
 // Rutas solo para admin
 router.get('/users', requireAuth, requireAdmin, (req, res, next) => authController.getAllUsers(req, res, next));

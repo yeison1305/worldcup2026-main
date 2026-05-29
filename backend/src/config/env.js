@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 // Origins permitidos — desarrollo y producción
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000')
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:5174,http://localhost:3000')
   .split(',')
   .map(o => o.trim());
 

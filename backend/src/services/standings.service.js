@@ -1,7 +1,7 @@
 const standingsRepository = require('../repositories/standings.repository');
 const { BadRequestError } = require('../errors/AppError');
 
-const VALID_GROUPS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+const VALID_GROUPS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
 class StandingsService {
   /**

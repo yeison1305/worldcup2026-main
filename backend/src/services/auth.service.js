@@ -193,7 +193,23 @@ class AuthService {
     }
   }
 
+  async changePassword(userId, currentPassword, newPassword) {
+    const user = await userRepository.findByIdWithPassword(userId);
+    if (!user) {
+      throw NotFoundError.create('Usuario no encontrado');
+    }
+
+    const isValid = await comparePassword(currentPassword, user.password);
+    if (!isValid) {
+      throw BadRequestError.create('La contraseña actual es incorrecta');
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+    await userRepository.updatePassword(userId, hashedPassword);
+
+    return { message: 'Contraseña actualizada correctamente' };
+  }
+
 }
 
-// Patrón Singleton: exportar una única instancia de la clase
 module.exports = new AuthService();

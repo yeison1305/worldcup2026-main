@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * MatchCard — Tarjeta visual de un partido
  * Muestra equipo local vs visitante, marcador, fecha, estadio y estado
  */
 export default function MatchCard({ match, animationDelay = 0 }) {
+  const navigate = useNavigate();
   const formattedDate = useMemo(() => {
     if (!match.match_date) return 'Por definir';
     return new Date(match.match_date).toLocaleDateString('es-ES', {
@@ -30,7 +32,8 @@ export default function MatchCard({ match, animationDelay = 0 }) {
 
   return (
     <div
-      className="rounded-xl p-5 transition-all hover:scale-[1.02]"
+      onClick={() => navigate(`/matches/${match.id}`)}
+      className="rounded-xl p-5 transition-all hover:scale-[1.02] cursor-pointer"
       style={{
         background: 'linear-gradient(145deg, #1e293b 0%, #0f172a 100%)',
         border: match.status === 'LIVE' ? '1px solid rgba(239, 68, 68, 0.5)' : '1px solid #334155',

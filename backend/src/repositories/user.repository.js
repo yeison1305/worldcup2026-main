@@ -24,6 +24,14 @@ class UserRepository {
     return result.rows[0] || null;
   }
 
+  async findByIdWithPassword(id) {
+    const result = await db.query(
+      'SELECT * FROM users WHERE id = $1',
+      [id]
+    );
+    return result.rows[0] || null;
+  }
+
   async findByGoogleId(googleId) {
     const result = await db.query(
       'SELECT * FROM users WHERE google_id = $1',
@@ -108,6 +116,17 @@ class UserRepository {
        WHERE id = $1`,
       [userId]
     );
+  }
+
+  async updatePassword(userId, hashedPassword) {
+    const result = await db.query(
+      `UPDATE users
+       SET password = $1
+       WHERE id = $2
+       RETURNING id, name, email`,
+      [hashedPassword, userId]
+    );
+    return result.rows[0] || null;
   }
 
 }

@@ -45,9 +45,9 @@ class MatchService {
   }
 
   async getByGroup(groupLetter) {
-    const validGroups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    const validGroups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
     if (!validGroups.includes(groupLetter.toUpperCase())) {
-      throw BadRequestError.create('Grupo inválido. Use A-H');
+      throw BadRequestError.create('Grupo inválido. Use A-L');
     }
     return matchRepository.findByGroup(groupLetter.toUpperCase());
   }

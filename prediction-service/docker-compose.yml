@@ -1,0 +1,55 @@
+services:
+
+  mysql:
+    image: mysql:8.4
+
+    container_name: football-mysql
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
+    ports:
+      - "3350:3306"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  football-api:
+
+    build: .
+
+    container_name: football-api
+
+    restart: always
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "8080:8080"
+
+    environment:
+
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+
+      SPRING_DATASOURCE_USERNAME: root
+
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      LLM_PROVIDER: ${LLM_PROVIDER}
+
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_URL: ${OPENAI_URL}
+      OPENAI_MODEL: ${OPENAI_MODEL}
+
+      DEEP_SEEK_API_KEY: ${DEEP_SEEK_API_KEY}
+      DEEP_SEEK_URL: ${DEEP_SEEK_URL}
+      DEEP_SEEK_MODEL: ${DEEP_SEEK_MODEL}
+
+volumes:
+  mysql-data:

@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth.routes');
 const teamRoutes = require('./routes/team.routes');
 const matchRoutes = require('./routes/match.routes');
 const standingsRoutes = require('./routes/standings.routes');
+const predictionRoutes = require('./routes/prediction.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express();
@@ -52,6 +53,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/standings', standingsRoutes);
+app.use('/api/predictions', predictionRoutes);
 
 // Ruta de salud para verificar que el servidor corre
 app.get('/health', (req, res) => {
