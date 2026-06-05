@@ -54,4 +54,16 @@ const getStats = async () => {
   return response.data;
 };
 
-export default { predict, getUpcoming, getByMatch, generateAll, sync, getStats };
+const getHistory = async () => {
+  const response = await axios.get(`${API_URL}/history`, {
+    headers: getAuthHeaders(),
+  });
+  return response.data;
+};
+
+const getChampion = async () => {
+  const response = await axios.get(`${API_URL}/champion`);
+  return response.data;
+};
+
+export default { predict, getUpcoming, getByMatch, generateAll, sync, getStats, getHistory, getChampion };

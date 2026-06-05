@@ -1,4 +1,5 @@
 const teamService = require('../services/team.service');
+const { logAudit } = require('../middlewares/audit.middleware');
 
 class TeamController {
   async getAll(req, res, next) {
@@ -30,6 +31,7 @@ class TeamController {
     try {
       const { name, flagUrl, groupLetter } = req.body;
       const team = await teamService.create({ name, flagUrl, groupLetter });
+      logAudit(req, 'CREATE', 'team', team.id);
       res.status(201).json({
         status: 'success',
         data: { team }
@@ -44,6 +46,7 @@ class TeamController {
       const { id } = req.params;
       const { name, flagUrl, groupLetter, isActive } = req.body;
       const team = await teamService.update(id, { name, flagUrl, groupLetter, isActive });
+      logAudit(req, 'UPDATE', 'team', id);
       res.status(200).json({
         status: 'success',
         data: { team }
@@ -57,6 +60,7 @@ class TeamController {
     try {
       const { id } = req.params;
       const result = await teamService.delete(id);
+      logAudit(req, 'DELETE', 'team', id);
       res.status(200).json({
         status: 'success',
         data: result

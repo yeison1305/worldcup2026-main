@@ -8,6 +8,8 @@ import ResetPasswordPage from '../pages/ResetPasswordPage';
 import GroupStagePage from '../pages/GroupStagePage';
 import MatchDetailPage from '../pages/MatchDetailPage';
 import ProfilePage from '../pages/ProfilePage';
+import LivePage from '../pages/LivePage';
+import BracketPage from '../pages/BracketPage';
 
 // Componente para redirigir según rol
 const RoleBasedRedirect = ({ children }) => {
@@ -73,6 +75,16 @@ export default function AppRouter() {
         {/* Detalle de partido con predicción */}
         <Route path="/matches/:id" element={
           <PrivateRoute><MatchDetailPage /></PrivateRoute>
+        } />
+
+        {/* Live Mode */}
+        <Route path="/live" element={
+          <PrivateRoute><LivePage /></PrivateRoute>
+        } />
+
+        {/* Bracket eliminatoria */}
+        <Route path="/bracket" element={
+          <PrivateRoute><BracketPage /></PrivateRoute>
         } />
 
         {/* Perfil */}

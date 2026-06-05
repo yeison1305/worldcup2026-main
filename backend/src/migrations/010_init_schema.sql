@@ -20,10 +20,11 @@ CREATE INDEX IF NOT EXISTS idx_users_reset_token ON users(reset_token);
 CREATE TABLE IF NOT EXISTS teams (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  group_letter CHAR(1) NOT NULL CHECK (group_letter BETWEEN 'A' AND 'H'),
+  group_letter CHAR(1) NOT NULL CHECK (group_letter BETWEEN 'A' AND 'L'),
   flag_url TEXT,
   is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Verificar que todo se creó

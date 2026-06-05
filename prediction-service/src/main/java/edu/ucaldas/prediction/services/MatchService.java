@@ -56,7 +56,7 @@ public class MatchService {
     public List<Match> findRecentMatches(Team team) {
 
         return matchRepository
-                .findTop10ByHomeTeamOrAwayTeamOrderByMatchDateDesc(
+                .findTop50ByHomeTeamOrAwayTeamOrderByMatchDateDesc(
                         team,
                         team
                 );

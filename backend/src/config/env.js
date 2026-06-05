@@ -8,7 +8,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,ht
 
 module.exports = {
   port:          process.env.PORT || 3000,
-  jwtSecret:     process.env.JWT_SECRET,
+  jwtSecret:     process.env.JWT_SECRET || (() => { throw new Error('JWT_SECRET es requerido en .env'); })(),
   jwtExpiresIn:  process.env.JWT_EXPIRES_IN || '24h',
   allowedOrigins,
   // Email config

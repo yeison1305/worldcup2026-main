@@ -1,6 +1,7 @@
 // src/controllers/auth.controller.js
 const authService = require('../services/auth.service');
 const userRepository = require('../repositories/user.repository');
+const auditService = require('../services/audit.service');
 const { isValidEmail, isValidPassword, isValidName } = require('../utils/validation.util');
 
 class AuthController {
@@ -277,6 +278,18 @@ class AuthController {
       return res.status(200).json({
         status: 'success',
         data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getAuditLog(req, res, next) {
+    try {
+      const logs = await auditService.getRecent(100);
+      return res.status(200).json({
+        status: 'success',
+        data: { logs },
       });
     } catch (error) {
       next(error);

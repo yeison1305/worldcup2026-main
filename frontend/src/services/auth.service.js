@@ -51,4 +51,14 @@ const changePassword = async (currentPassword, newPassword) => {
   return response.data;
 };
 
-export default { register, login, googleLogin, forgotPassword, resetPassword, changePassword };
+const getAuditLog = async () => {
+  const response = await axios.get(`${API_URL}/audit`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  return response.data;
+};
+
+export { api };
+export default { register, login, googleLogin, forgotPassword, resetPassword, changePassword, getAuditLog };

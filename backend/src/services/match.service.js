@@ -98,6 +98,11 @@ class MatchService {
       throw BadRequestError.create('Los marcadores no pueden ser negativos');
     }
 
+    // En eliminatoria no puede haber empate
+    if (match.phase !== 'GROUP' && homeScore === awayScore) {
+      throw BadRequestError.create('En eliminatoria no puede haber empate. Simulá penales si es necesario.');
+    }
+
     const result = await matchRepository.updateResult(id, homeScore, awayScore, 'FINISHED');
 
     console.log(`[MatchService] Resultado actualizado: Partido #${id} → ${homeScore}-${awayScore}`);

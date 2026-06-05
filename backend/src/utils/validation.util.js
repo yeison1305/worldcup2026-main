@@ -15,7 +15,7 @@ const isValidEmail = (email) => {
  * Valida que password tenga mínimo 6 caracteres
  */
 const isValidPassword = (password) => {
-  return password && password.length >= 6;
+  return !!(password && password.length >= 6);
 };
 
 /**

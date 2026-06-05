@@ -49,6 +49,13 @@ public class PredictionService {
                 (awayStats.getWinRate() * 0.7)
                         + (awayStats.getAvgGoals() * 0.3);
 
+        // Factor de variación fuerte para diversidad en predicciones
+        double variation = 0.6 + (Math.random() * 0.8); // Factor entre 0.6 y 1.4
+        double factor = variation;
+        homeScore *= factor;
+        factor = 0.6 + (Math.random() * 0.8); // Diferente factor para away
+        awayScore *= factor;
+
         Team winner =
                 homeScore >= awayScore
                         ? homeTeam
@@ -70,12 +77,6 @@ public class PredictionService {
         Prediction prediction = new Prediction();
 
         prediction.setPredictedWinner(winner);
-        prediction.setConfidence(
-                Math.max(
-                        homeProbability,
-                        awayProbability
-                )
-        );
 
         double totalPlayed = homeStats.getMatchesPlayed() + awayStats.getMatchesPlayed();
         double drawProbability;
@@ -98,6 +99,10 @@ public class PredictionService {
         prediction.setHomeWinProbability(homeProbability);
         prediction.setAwayWinProbability(awayProbability);
         prediction.setDrawProbability(drawProbability);
+
+        prediction.setConfidence(
+                Math.max(homeProbability, awayProbability)
+        );
 
         prediction.setModelVersion("v1-basic-score");
 

@@ -1,7 +1,7 @@
 const teamRepository = require('../repositories/team.repository');
 const db = require('../config/database');
 
-const JAVA_API_URL = 'http://localhost:8080/api';
+const JAVA_API_URL = process.env.JAVA_API_URL || 'http://localhost:8080/api';
 
 class SyncService {
   constructor() {

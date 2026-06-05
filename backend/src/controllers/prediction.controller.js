@@ -66,11 +66,40 @@ class PredictionController {
 
   async getStats(req, res, next) {
     try {
-      const stats = await predictionService.getStats();
+      const [stats, accuracy] = await Promise.all([
+        predictionService.getStats(),
+        predictionService.getAccuracy(),
+      ]);
 
       res.status(200).json({
         status: 'success',
-        data: stats,
+        data: { ...stats, accuracy },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getHistory(req, res, next) {
+    try {
+      const history = await predictionService.getHistory(req.user.id);
+
+      res.status(200).json({
+        status: 'success',
+        data: { history },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async predictChampion(req, res, next) {
+    try {
+      const result = await predictionService.predictChampion();
+
+      res.status(200).json({
+        status: 'success',
+        data: result,
       });
     } catch (error) {
       next(error);

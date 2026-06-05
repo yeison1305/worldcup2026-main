@@ -26,6 +26,11 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             Team awayTeam
     );
 
+    List<Match> findTop50ByHomeTeamOrAwayTeamOrderByMatchDateDesc(
+            Team homeTeam,
+            Team awayTeam
+    );
+
     List<Match> findTop5ByHomeTeamOrderByMatchDateDesc(Team homeTeam);
 
     List<Match> findTop5ByAwayTeamOrderByMatchDateDesc(Team awayTeam);

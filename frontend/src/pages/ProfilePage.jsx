@@ -239,6 +239,24 @@ export default function ProfilePage() {
               <div className="text-xs text-slate-400 mt-1">Predicciones</div>
             </div>
           </div>
+
+          {/* Accuracy Section */}
+          {stats?.accuracy && (
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b' }}>
+                <div className="text-xl font-bold" style={{ color: '#4ade80' }}>{stats.accuracy.accuracy}%</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Precisión</div>
+              </div>
+              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b' }}>
+                <div className="text-xl font-bold" style={{ color: '#4ade80' }}>{stats.accuracy.correct}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Aciertos ✅</div>
+              </div>
+              <div className="rounded-lg p-3 text-center" style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b' }}>
+                <div className="text-xl font-bold" style={{ color: '#fca5a5' }}>{stats.accuracy.incorrect}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Fallos ❌</div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

@@ -28,14 +28,14 @@ public class LLMService {
     ) {
 
         String prompt = """
-                Analyze the football prediction.
+                Analiza la predicción de fútbol.
 
-                Home Team: %s
-                Away Team: %s
-                Predicted Winner: %s
-                Confidence: %.2f%%
+                Equipo local: %s
+                Equipo visitante: %s
+                Ganador predicho: %s
+                Confianza: %.2f%%
 
-                Explain briefly why this team is likely to win.
+                Explica brevemente en español por qué este equipo tiene más probabilidades de ganar.
                 """.formatted(
                 homeTeam,
                 awayTeam,

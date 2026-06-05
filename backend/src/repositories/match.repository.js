@@ -83,6 +83,41 @@ if (error && error.code !== 'PGRST116') throw error;
     if (error && error.code !== 'PGRST116') throw error;
     return data || null;
   }
+
+  async create(matchData) {
+    const { data, error } = await db.supabase
+      .from('matches')
+      .insert(matchData)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
+  async update(id, updates) {
+    const { data, error } = await db.supabase
+      .from('matches')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
+  async updateResult(id, homeScore, awayScore, status) {
+    const { data, error } = await db.supabase
+      .from('matches')
+      .update({ home_score: homeScore, away_score: awayScore, status })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
 }
 
 module.exports = new MatchRepository();

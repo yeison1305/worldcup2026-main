@@ -3,8 +3,12 @@
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-const SUPABASE_URL = 'https://zrpmibwlmvsyfavbqdxd.supabase.co';
-const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpycG1pYndsbXZzeWZhdmJxZHhkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTE4MTkyMiwiZXhwIjoyMDkwNzU3OTIyfQ.PzLA-uEd0vFIkBJgrZxhrFM-lR5lN-eXUf7FzreYb9M';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  throw new Error('SUPABASE_URL y SUPABASE_SERVICE_KEY son requeridos en .env');
+}
 
 class Database {
   constructor() {

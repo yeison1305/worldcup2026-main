@@ -72,7 +72,8 @@ public class StatisticsService {
                         ? (double) goalsFor / matchesPlayed
                         : 0;
 
-        TeamStatistics statistics = new TeamStatistics();
+        TeamStatistics statistics = statisticsRepository.findByTeam(team)
+                .orElse(new TeamStatistics());
 
         statistics.setTeam(team);
         statistics.setMatchesPlayed(matchesPlayed);

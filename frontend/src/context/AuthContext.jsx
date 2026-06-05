@@ -10,20 +10,21 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await authService.login(email, password);
-    setUser(res.data.user);
-    setToken(res.data.token);
-    localStorage.setItem('user',  JSON.stringify(res.data.user));
-    localStorage.setItem('token', res.data.token);
+    storeAuth(res.data);
     return res.data;
   };
 
   const register = async (name, email, password) => {
     const res = await authService.register(name, email, password);
-    setUser(res.data.user);
-    setToken(res.data.token);
-    localStorage.setItem('user',  JSON.stringify(res.data.user));
-    localStorage.setItem('token', res.data.token);
+    storeAuth(res.data);
     return res.data;
+  };
+
+  const storeAuth = (data) => {
+    setUser(data.user);
+    setToken(data.token);
+    localStorage.setItem('user',  JSON.stringify(data.user));
+    localStorage.setItem('token', data.token);
   };
 
   const logout = () => {
@@ -35,10 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const googleLogin = async (googleToken) => {
     const res = await authService.googleLogin(googleToken);
-    setUser(res.data.user);
-    setToken(res.data.token);
-    localStorage.setItem('user',  JSON.stringify(res.data.user));
-    localStorage.setItem('token', res.data.token);
+    storeAuth(res.data);
     return res.data;
   };
 

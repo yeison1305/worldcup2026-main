@@ -40,10 +40,7 @@ export default function RegisterPage() {
     setError('');
     setGoogleLoading(true);
     try {
-      const res = await authService.googleLogin(googleToken);
-      
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      localStorage.setItem('token', res.data.token);
+      const result = await googleLogin(googleToken);
       window.location.href = '/dashboard';
     } catch (err) {
       setError(err.response?.data?.message || 'Error con Google Sign-In');

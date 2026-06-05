@@ -1,13 +1,18 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 require('./config/env');
 const { allowedOrigins } = require('./config/env');
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 
 const authRoutes = require('./routes/auth.routes');
 const teamRoutes = require('./routes/team.routes');
 const matchRoutes = require('./routes/match.routes');
 const standingsRoutes = require('./routes/standings.routes');
 const predictionRoutes = require('./routes/prediction.routes');
+const bracketRoutes = require('./routes/bracket.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express();
@@ -48,16 +53,27 @@ app.use((err, req, res, next) => {
 
 app.use(express.json());
 
+// Seguridad
+app.use(helmet());
+
 // Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/standings', standingsRoutes);
 app.use('/api/predictions', predictionRoutes);
+app.use('/api/bracket', bracketRoutes);
 
 // Ruta de salud para verificar que el servidor corre
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Servidor funcionando' });
+});
+
+// Swagger/OpenAPI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
 });
 
 // Middleware de errores — siempre al final

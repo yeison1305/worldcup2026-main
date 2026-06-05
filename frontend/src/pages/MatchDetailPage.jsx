@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import matchService from '../services/match.service';
 import predictionService from '../services/prediction.service';
 import TrophyIcon from '../components/TrophyIcon';
+import { renderReasoning } from '../utils/format';
 
 export default function MatchDetailPage() {
   const { id } = useParams();
@@ -240,7 +241,7 @@ export default function MatchDetailPage() {
                   {prediction.reasoning && (
                     <div className="pt-6" style={{ borderTop: '1px solid #334155' }}>
                       <div className="text-xs text-slate-500 mb-2">🧠 Razonamiento IA</div>
-                      <p className="text-sm text-slate-300 leading-relaxed">{prediction.reasoning}</p>
+                      <p className="text-sm text-slate-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: renderReasoning(prediction.reasoning) }} />
                     </div>
                   )}
 

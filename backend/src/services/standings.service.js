@@ -11,7 +11,7 @@ class StandingsService {
   async getByGroup(groupLetter) {
     const letter = groupLetter.toUpperCase();
     if (!VALID_GROUPS.includes(letter)) {
-      throw BadRequestError.create('Grupo inválido. Use A-H');
+      throw BadRequestError.create('Grupo inválido. Use A-L');
     }
 
     const standings = await standingsRepository.calculateByGroup(letter);

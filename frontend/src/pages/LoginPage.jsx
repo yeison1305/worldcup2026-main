@@ -71,17 +71,15 @@ export default function LoginPage() {
     setError('');
     setGoogleLoading(true);
     try {
-      const res = await authService.googleLogin(googleToken);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      localStorage.setItem('token', res.data.token);
+      const result = await googleLogin(googleToken);
       
-      if (activeTab === 'ADMIN' && res.data.user?.role !== 'ADMIN') {
+      if (activeTab === 'ADMIN' && result.user?.role !== 'ADMIN') {
         setError('Acceso denegado. Este usuario no tiene permisos de administrador.');
         setGoogleLoading(false);
         return;
       }
       
-      if (res.data.user?.role === 'ADMIN') {
+      if (result.user?.role === 'ADMIN') {
         window.location.href = '/admin';
       } else {
         window.location.href = '/dashboard';

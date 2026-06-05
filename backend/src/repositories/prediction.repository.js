@@ -23,6 +23,34 @@ class PredictionRepository {
     return data;
   }
 
+  async findByUser(userId) {
+    const { data, error } = await db.supabase
+      .from('predictions')
+      .select(`
+        id,
+        match_id,
+        predicted_winner,
+        home_win_probability,
+        away_win_probability,
+        draw_probability,
+        confidence,
+        reasoning,
+        model_version,
+        created_at,
+        match:matches (
+          id, home_score, away_score, phase, group_letter, status, match_date, stadium,
+          home_team:teams!matches_home_team_id_fkey(name, flag_url),
+          away_team:teams!matches_away_team_id_fkey(name, flag_url)
+        )
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
+    return data || [];
+  }
+
   async findByMultipleMatchIds(matchIds) {
     const { data, error } = await db.supabase
       .from('predictions')

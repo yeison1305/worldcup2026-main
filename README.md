@@ -1,6 +1,31 @@
 # World Cup 2026 Predictor - Guía de Instalación
 
-## Requisitos Previos
+## 🚀 Quickstart con Docker (recomendado)
+
+```bash
+# 1. Clonar
+git clone https://github.com/yeison1305/worldcup2026-main
+cd worldcup2026-main
+
+# 2. Configurar variables de entorno
+cp backend/.env.example backend/.env
+cp prediction-service/.env.example prediction-service/.env
+# Editar backend/.env y prediction-service/.env con tus claves
+
+# 3. Levantar todo (backend + frontend + Java + MySQL)
+docker compose up -d
+
+# 4. Abrir
+# Frontend:  http://localhost:5173
+# Swagger:   http://localhost:3000/api-docs
+# Java API:  http://localhost:8080/api/teams
+```
+
+**⚠️ Necesitás una API key de DeepSeek** (gratis): https://platform.deepseek.com
+
+---
+
+## Requisitos Previos (instalación manual)
 
 Antes de comenzar, asegurate de tener instalado:
 
