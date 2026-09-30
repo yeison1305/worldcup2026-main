@@ -234,13 +234,13 @@ Si tenés problemas, revisá:
 
 Para que funcione correctamente, necesitás las siguientes credenciales de Miguel:
 
-| Variable | Descripción | Cómo obtenerla |
-|----------|-------------|----------------|
-| `SUPABASE_URL` | URL del proyecto Supabase | Pedir a Miguel |
-| `SUPABASE_KEY` | Clave anon de Supabase | Pedir a Miguel |
-| `JWT_SECRET` | Clave para JWT | Pedir a Miguel |
-| `EMAIL_USER` | Email para enviar correos | Pedir a Miguel |
-| `EMAIL_PASS` | Password de aplicación | Pedir a Miguel |
+| Variable | Descripción |
+|----------|-------------|
+| `SUPABASE_URL` | URL del proyecto Supabase | 
+| `SUPABASE_KEY` | Clave anon de Supabase | 
+| `JWT_SECRET` | Clave para JWT |
+| `EMAIL_USER` | Email para enviar correos |
+| `EMAIL_PASS` | Password de aplicación |
 
 **Archivos de ejemplo listos para copiar:**
 - `backend/.env.example` → `backend/.env`
